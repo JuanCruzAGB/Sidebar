@@ -1,0 +1,26 @@
+.sidebar .dropdown{
+    --color-two: var(--color-two); /* * Buttons */
+    --color-two-alternative: var(--color-two-alternative); /* * Buttons efects */
+    --color-three: var(--color-three-alternative); /* * Background */
+    --color-three-alternative: var(--color-three-alternative); /* * Background efects */
+}
+
+.sidebar .dropdown .dropdown-title{
+    width: 100%;
+    padding: 0;
+}
+
+/* MD */
+@media(min-width: 768px){
+    /**/
+}
+
+/* LG */
+@media(min-width: 1024px){
+    /**/
+}
+
+/* XL */
+@media(min-width: 1200px){
+    /**/
+}
