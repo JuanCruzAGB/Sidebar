@@ -1,13 +1,7 @@
-.sidebar .dropdown{
-    --color-two: var(--color-two); /* * Buttons */
-    --color-two-alternative: var(--color-two-alternative); /* * Buttons efects */
-    --color-three: var(--color-three-alternative); /* * Background */
-    --color-three-alternative: var(--color-three-alternative); /* * Background efects */
-}
-
 .sidebar .dropdown .dropdown-title{
     width: 100%;
     padding: 0;
+    background-color: transparent;
 }
 
 /* MD */
@@ -17,7 +11,24 @@
 
 /* LG */
 @media(min-width: 1024px){
-    /**/
+    .sidebar.closed .dropdown:hover{
+        overflow: hidden;
+    }
+
+    .sidebar .dropdown.closed:hover .dropdown-menu-list,
+    .sidebar .dropdown.closed .dropdown-menu-list,
+    .sidebar .dropdown .dropdown-menu-list{
+        position: initial;
+        display: none;
+        padding: 0;
+        margin: 0;
+        transform: none;
+    }
+
+    .sidebar .dropdown .dropdown-menu-list{
+        display: block;
+        margin-top: 1rem;
+    }
 }
 
 /* XL */

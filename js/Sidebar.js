@@ -19,7 +19,6 @@ export class Sidebar{
         this.setStates(states);
         this.setHTML();
         this.setButtons();
-        // TODO The buttons must close the Sidebar.
         this.checkOpenedSidebar();
     }
 
@@ -123,6 +122,21 @@ export class Sidebar{
             }
             sidebar.switch();
         });
+        this.addEventToSidebarButtons();
+    }
+
+    /**
+     * * Add the close event to the Sidebar custom buttons.
+     * @memberof Sidebar
+     */
+    addEventToSidebarButtons(){
+        let sidebar = this;
+        let sidebarButtons = document.querySelectorAll(`#${this.properties.id} .sidebar-button`);
+        for(const btn of sidebarButtons){
+            btn.addEventListener('click', function(e){
+                sidebar.switch();
+            });
+        }
     }
 
     /**
