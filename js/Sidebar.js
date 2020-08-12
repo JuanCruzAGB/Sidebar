@@ -117,9 +117,7 @@ export class Sidebar{
             }
         }
         this.btnCloser.addEventListener("click", function(e){
-            if(this.classList.contains('button')){
-                e.preventDefault();
-            }
+            e.preventDefault();
             sidebar.switch();
         });
         this.addEventToSidebarButtons();
@@ -131,7 +129,7 @@ export class Sidebar{
      */
     addEventToSidebarButtons(){
         let sidebar = this;
-        let sidebarButtons = document.querySelectorAll(`#${this.properties.id} .sidebar-button`);
+        let sidebarButtons = document.querySelectorAll(`#${this.properties.id} .sidebar-link.sidebar-button`);
         for(const btn of sidebarButtons){
             btn.addEventListener('click', function(e){
                 sidebar.switch();
