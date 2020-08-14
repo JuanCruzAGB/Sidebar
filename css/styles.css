@@ -14,6 +14,7 @@
     --shadow-color: #32B1DA;
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     transition: 500ms;
@@ -33,14 +34,6 @@
     box-shadow: 0 0 19px var(--shadow-color);
 }
 
-.sidebar.left{
-    left: 0;
-}
-
-.sidebar.right{
-    right: 0;
-}
-
 .sidebar.left.closed{
     transform: translateX(-101%);
 }
@@ -58,6 +51,16 @@
     background-color: #222;
     border-bottom: 1px solid #222;
     box-sizing: border-box;
+}
+
+.sidebar.left .sidebar-header,
+.sidebar.left .sidebar-content{
+    margin-right: 25%;
+}
+
+.sidebar.right .sidebar-header,
+.sidebar.right .sidebar-content{
+    margin-left: 25%;
 }
 
 .sidebar .sidebar-header .sidebar-title{
@@ -310,6 +313,16 @@
         width: 50%;
     }
 
+    .sidebar.left .sidebar-header,
+    .sidebar.left .sidebar-content{
+        margin-right: 50%;
+    }
+    
+    .sidebar.right .sidebar-header,
+    .sidebar.right .sidebar-content{
+        margin-left: 50%;
+    }
+
     .sidebar.left .sidebar-header .sidebar-button::before{
         left: 50%;
     }
@@ -324,6 +337,16 @@
     .sidebar .sidebar-header,
     .sidebar .sidebar-content{
         width: 25%;
+    }
+
+    .sidebar.left .sidebar-header,
+    .sidebar.left .sidebar-content{
+        margin-right: 75%;
+    }
+    
+    .sidebar.right .sidebar-header,
+    .sidebar.right .sidebar-content{
+        margin-left: 75%;
     }
 
     .sidebar.left .sidebar-header .sidebar-button::before{

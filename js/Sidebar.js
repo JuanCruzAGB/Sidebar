@@ -103,8 +103,8 @@ export class Sidebar{
     setButtons(){
         let sidebar = this;
         this.btnsOpener = [];
-        let btnsOpener = document.querySelectorAll('.sidebar-button.open-btn.' + this.properties.position);
-        this.btnCloser = document.querySelector('#' + this.properties.id + ' .sidebar-button.close-btn');
+        let btnsOpener = document.querySelectorAll(`.sidebar-button.open-btn.${this.properties.position}`);
+        this.btnCloser = document.querySelector(`#${this.properties.id} .sidebar-button.close-btn`);
         for(const btn of btnsOpener){
             if(btn.href.split('#').pop() == this.properties.id){
                 this.btnsOpener.push(btn);
