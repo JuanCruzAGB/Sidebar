@@ -4,6 +4,14 @@
     background-color: transparent;
 }
 
+.sidebar .dropdown.closed .dropdown-menu-list li{
+    padding: 0;
+}
+
+.sidebar .dropdown.opened .dropdown-menu-list li{
+    padding: 1rem 0;
+}
+
 /* MD */
 @media(min-width: 768px){
     /**/
