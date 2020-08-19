@@ -4,6 +4,10 @@
     background-color: transparent;
 }
 
+.sidebar .dropdown .dropdown-menu-list li{
+    transition: 500ms;
+}
+
 .sidebar .dropdown.closed .dropdown-menu-list li{
     padding: 0;
 }
