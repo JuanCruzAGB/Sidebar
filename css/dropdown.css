@@ -1,4 +1,4 @@
-.sidebar .dropdown .dropdown-title{
+.sidebar .dropdown .dropdown-header{
     width: 100%;
     padding: 0;
     background-color: transparent;
@@ -6,14 +6,6 @@
 
 .sidebar .dropdown .dropdown-menu-list li{
     transition: 500ms;
-}
-
-.sidebar .dropdown.closed .dropdown-menu-list li{
-    padding: 0;
-}
-
-.sidebar .dropdown.opened .dropdown-menu-list li{
-    padding: 1rem 0;
 }
 
 /* MD */
@@ -39,7 +31,6 @@
 
     .sidebar .dropdown .dropdown-menu-list{
         display: block;
-        margin-top: 1rem;
     }
 }
 

@@ -197,7 +197,6 @@
 
 .sidebar .sidebar-content .sidebar-menu-list li{
     position: relative;
-    padding: 1rem;
 }
 
 .sidebar .sidebar-content .sidebar-menu-list li::before{
@@ -214,19 +213,6 @@
     height: 0;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list li li{
-    padding: 1rem 0;
-}
-
-.sidebar .sidebar-content .sidebar-menu-list li li:last-of-type{
-    padding-bottom: 0;
-}
-
-.sidebar .sidebar-content .sidebar-menu-list li li::before{
-    left: 0;
-    right: 0;
-}
-
 .sidebar .sidebar-content .sidebar-menu-list li:last-child{
     border: none;
 }
@@ -239,6 +225,7 @@
     text-decoration: none;
     color: var(--color-two);
     transition: 500ms;
+    padding: 1rem;
 }
 
 .sidebar .sidebar-content .sidebar-menu-list .sidebar-link:hover,
