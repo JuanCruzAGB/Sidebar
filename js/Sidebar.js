@@ -28,7 +28,7 @@ export class Sidebar{
      * @memberof Sidebar
      */
     setProperties(properties = {
-        id: 'nav-1',
+        id: 'sidebar-1',
         position: 'left',
     }){
         this.properties = {};
