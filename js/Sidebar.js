@@ -25,16 +25,29 @@ export class Sidebar extends Class {
         open: false,
     }) {
         super(props, states);
-        let sidebars = document.querySelectorAll('.sidebar');
-        if(sidebars.length){
-            for(const sidebar of sidebars){
-                if(sidebar.id == this.props.id){
-                    this.setHTML(sidebar);
-                }
-            }
+        if (document.querySelector(`#${ this.props.id }.sidebar`)) {
+            this.setHTML(document.querySelector(`#${ this.props.id }.sidebar`));
         }
         this.setButtons();
-        this.checkOpenedSidebar();
+        this.checkStates();
+    }
+
+    /**
+     * * Check the Sidebar states values.
+     * @memberof Sidebar
+     */
+    checkStates () {
+        this.checkOpenState();
+    }
+
+    /**
+     * * Check the Sidebar open state.
+     * @memberof Dropdown
+     */
+     checkOpenState () {
+        if (this.states.open) {
+            this.switch();
+        }
     }
 
     /**
@@ -43,24 +56,34 @@ export class Sidebar extends Class {
      */
     setButtons () {
         let sidebar = this;
-        this.btnsOpener = [];
-        let btnsOpener = document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`);
-        this.btnCloser = document.querySelector(`#${ this.props.id } .sidebar-button.close-btn`);
-        for (const btn of btnsOpener) {
-            if (btn.href.split('#').pop() == this.props.id) {
-                this.btnsOpener.push(btn);
-                btn.addEventListener('click', (e) => {
-                    if(btn.classList.contains('sidebar-button')){
+        this.buttons = {
+            open: [],
+            close: [],
+        };
+        if (document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`).length) {
+            for (const btn of document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`)) {
+                if (btn.href.split('#').pop() === this.props.id) {
+                    this.buttons.open.push(btn);
+                    btn.addEventListener('click', function (e) {
                         e.preventDefault();
-                    }
+                        sidebar.switch();
+                    });
+                }
+            }
+        } else {
+            console.warn(`There is not sidebar-${ this.props.position } open button`);
+        }
+        if (document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`).length) {
+            for (const btn of document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`)) {
+                this.buttons.close.push(btn);
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault();
                     sidebar.switch();
                 });
             }
+        } else {
+            console.warn(`There is not sidebar-${ this.props.position } close button`);
         }
-        this.btnCloser.addEventListener("click", (e) => {
-            e.preventDefault();
-            sidebar.switch();
-        });
         this.addEventToSidebarButtons();
     }
 
@@ -116,16 +139,6 @@ export class Sidebar extends Class {
             this.html.classList.remove('opened');
         }
         this.html.classList.add('closed');
-    }
-
-    /**
-     * * Check if should be a current Dropdown open.
-     * @memberof Dropdown
-     */
-    checkOpenedSidebar () {
-        if (this.states.open) {
-            this.switch();
-        }
     }
 
     // static getPositions (props = {

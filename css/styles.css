@@ -109,9 +109,9 @@
 .sidebar .sidebar-header .sidebar-button{
     display: flex;
     align-items: center;
-    width: calc((100% - 2rem) * .1);
     height: 100%;
     text-decoration: none;
+    color: var(--sidebar-background-color);
 }
 
 .sidebar .sidebar-header .sidebar-button .sidebar-icon{
