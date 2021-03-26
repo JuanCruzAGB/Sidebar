@@ -23,7 +23,6 @@
     overflow-y: visible;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background-color: var(--sidebar-background-color);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -187,6 +186,7 @@
     width: 75%;
     min-height: calc(100% - 9.2rem);
     box-sizing: border-box;
+    background-color: var(--sidebar-background-color);
 }
 
 .sidebar .sidebar-content .sidebar-menu-list {
