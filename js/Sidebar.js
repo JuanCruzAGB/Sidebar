@@ -1,5 +1,5 @@
 // ? JuanCruzAGB repository
-import Class from "../../JuanCruzAGB/Class.js";
+import Class from "../../JuanCruzAGB/js/Class.js";
 
 /**
  * * Sidebar makes an excellent sidebar.
@@ -14,29 +14,29 @@ export class Sidebar extends Class {
      * @param {object} [props] Sidebar properties:
      * @param {string} [props.id='sidebar-1'] Sidebar primary key.
      * @param {string} [props.position='left'] Sidebar position.
-     * @param {object} [states] Sidebar states:
-     * @param {boolean} [states.open=false] Sidebar open state.
+     * @param {object} [state] Sidebar state:
+     * @param {boolean} [state.open=false] Sidebar open state.
      * @memberof Sidebar
      */
     constructor (props = {
         id: 'sidebar-1',
         position: 'left',
-    }, states = {
+    }, state = {
         open: false,
     }) {
-        super(props, states);
+        super(props, state);
         if (document.querySelector(`#${ this.props.id }.sidebar`)) {
             this.setHTML(document.querySelector(`#${ this.props.id }.sidebar`));
         }
         this.setButtons();
-        this.checkStates();
+        this.checkState();
     }
 
     /**
-     * * Check the Sidebar states values.
+     * * Check the Sidebar state values.
      * @memberof Sidebar
      */
-    checkStates () {
+    checkState () {
         this.checkOpenState();
     }
 
@@ -45,7 +45,7 @@ export class Sidebar extends Class {
      * @memberof Dropdown
      */
      checkOpenState () {
-        if (this.states.open) {
+        if (this.state.open) {
             this.switch();
         }
     }
@@ -75,11 +75,13 @@ export class Sidebar extends Class {
         }
         if (document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`).length) {
             for (const btn of document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`)) {
-                this.buttons.close.push(btn);
-                btn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    sidebar.switch();
-                });
+                if (btn.href.split('#').pop() === this.props.id) {
+                    this.buttons.close.push(btn);
+                    btn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        sidebar.switch();
+                    });
+                }
             }
         } else {
             console.warn(`There is not sidebar-${ this.props.position } close button`);
@@ -95,7 +97,7 @@ export class Sidebar extends Class {
         let sidebar = this;
         let sidebarButtons = document.querySelectorAll(`#${ this.props.id } .sidebar-link.sidebar-button`);
         for (const btn of sidebarButtons) {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', function (e) {
                 sidebar.switch();
             });
         }
@@ -107,7 +109,7 @@ export class Sidebar extends Class {
      * @memberof Sidebar
      */
     switch () {
-        switch (this.states.open) {
+        switch (this.state.open) {
             case true:
                 this.close();
                 return false;
@@ -122,7 +124,7 @@ export class Sidebar extends Class {
      * @memberof Sidebar
      */
     open () {
-        this.setStates('open', true);
+        this.setState('open', true);
         if (this.html.classList.contains('closed')) {
             this.html.classList.remove('closed');
         }
@@ -134,7 +136,7 @@ export class Sidebar extends Class {
      * @memberof Sidebar
      */
     close () {
-        this.setStates('open', false);
+        this.setState('open', false);
         if (this.html.classList.contains('opened')) {
             this.html.classList.remove('opened');
         }
