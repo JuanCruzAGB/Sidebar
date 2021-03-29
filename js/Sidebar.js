@@ -1,5 +1,5 @@
 // ? JuanCruzAGB repository
-import Class from "../../JuanCruzAGB/Class.js";
+import Class from "../../JuanCruzAGB/js/Class.js";
 
 /**
  * * Sidebar makes an excellent sidebar.
