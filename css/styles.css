@@ -322,7 +322,7 @@
     top: 0;
 }
 
-/* * MD */
+/* ? MD */
 @media (min-width: 768px) {
     .sidebar .sidebar-header,
     .sidebar .sidebar-content {
@@ -348,7 +348,7 @@
     }
 }
 
-/* * LG */
+/* ? LG */
 @media (min-width: 1024px) {
     .sidebar .sidebar-header,
     .sidebar .sidebar-content {
@@ -374,7 +374,7 @@
     }
 }
 
-/* * XL */
+/* ? XL */
 @media (min-width: 1200px) {
     /**/
 }
