@@ -142,23 +142,6 @@ export class Sidebar extends Class {
         }
         this.html.classList.add('closed');
     }
-
-    // static getPositions (props = {
-    //     position: ['left', 'right'],
-    // }) {
-    //     if (typeof props.position != 'object') {
-    //         throw new Error({
-    //             status: 415,
-    //             message: 'The Sidebar props position must be a valid object.',
-    //             display: true,
-    //         });
-    //     }
-    //     let positions = [];
-    //     for(const position of props.position){
-    //         positions.push(position);
-    //     }
-    //     return positions;
-    // }
 }
 
 // ? Default export
