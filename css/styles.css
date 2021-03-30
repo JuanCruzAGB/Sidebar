@@ -30,10 +30,12 @@
 
 .sidebar.left.closed {
     transform: translateX(-101%);
+    overflow-x: hidden;
 }
 
 .sidebar.right.closed {
     transform: translateX(135%);
+    overflow-x: hidden;
 }
 
 .sidebar .sidebar-header {
