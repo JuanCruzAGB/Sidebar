@@ -1,6 +1,17 @@
 // ? JuanCruzAGB repository
 import Class from "../../JuanCruzAGB/js/Class.js";
 
+/** @var {object} defaultProps Default properties. */
+let defaultProps = {
+    id: 'sidebar-1',
+    position: 'left',
+};
+
+/** @var {object} defaultState Default state. */
+let defaultState = {
+    open: false,
+};
+
 /**
  * * Sidebar makes an excellent sidebar.
  * @export
@@ -24,7 +35,7 @@ export class Sidebar extends Class {
     }, state = {
         open: false,
     }) {
-        super(props, state);
+        super({ ...defaultProps, ...props }, { ...defaultState, ...state });
         if (document.querySelector(`#${ this.props.id }.sidebar`)) {
             this.setHTML(document.querySelector(`#${ this.props.id }.sidebar`));
         }
