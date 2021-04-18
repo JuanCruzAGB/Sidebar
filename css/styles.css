@@ -1,7 +1,6 @@
 @import 'dropdown.css';
 
-/* Sidebar */
-.sidebar {
+:root {
     --sidebar-title-color: #fff;
     --sidebar-button-color: #222;
     --sidebar-button-color-alternative: #000;
@@ -11,6 +10,9 @@
     --sidebar-border-color-alternative: #ddd;
     --sidebar-icon-color: #ddd;
     --sidebar-icon-color-alternative: #ddd;
+}
+
+.sidebar {
     position: fixed;
     top: 0;
     left: 0;
