@@ -76,22 +76,22 @@
     object-position: right;
 }
 
-.sidebar .sidebar-header .sidebar-title :is(h1, h2, h3, h4, h5, h6) {
+.sidebar .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
     width: 100%;
     line-height: 4.6rem;
     color: var(--sidebar-title-color);
     font-size: 1.1rem;
 }
 
-.sidebar.left .sidebar-header .sidebar-title :is(h1, h2, h3, h4, h5, h6) {
+.sidebar.left .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
     text-align: left;
 }
 
-.sidebar.right .sidebar-header .sidebar-title :is(h1, h2, h3, h4, h5, h6) {
+.sidebar.right .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
     text-align: right;
 }
 
-.sidebar .sidebar-header .sidebar-title.logo :is(h1, h2, h3, h4, h5, h6) {
+.sidebar .sidebar-header .sidebar-title.logo :where(h1, h2, h3, h4, h5, h6) {
     display: none;
 }
 
