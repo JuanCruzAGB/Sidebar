@@ -1,16 +1,4 @@
-@import 'dropdown.css';
-
-:root {
-    --sidebar-title-color: #fff;
-    --sidebar-button-color: #222;
-    --sidebar-button-color-alternative: #000;
-    --sidebar-background-color: #fff;
-    --sidebar-background-color-alternative: #222;
-    --sidebar-border-color: #ddd;
-    --sidebar-border-color-alternative: #ddd;
-    --sidebar-icon-color: #ddd;
-    --sidebar-icon-color-alternative: #ddd;
-}
+@import "dropdown.css";
 
 .sidebar {
     position: fixed;
@@ -23,7 +11,7 @@
     overflow-x: visible;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background-color: var(--sidebar-background-color);
+    background-color: var(--sidebar-background-color, #FFF);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -40,79 +28,87 @@
     overflow-x: hidden;
 }
 
-.sidebar .sidebar-header {
+/* * Body */
+.sidebar .sidebar-body {
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+}
+
+/* * Header */
+.sidebar .sidebar-body .sidebar-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 4.6rem;
+    min-height: 4.6rem;
     padding: 0 1rem;
-    background-color: var(--sidebar-background-color-alternative);
-    border-bottom: 1px solid var(--sidebar-border-color);
+    background-color: var(--sidebar-header-background-color, var(--sidebar-background-color, #FFF));
+    border-bottom: 1px solid var(--sidebar-border-color, #DDD);
     box-sizing: border-box;
-    color: var(--sidebar-title-color);
+    color: var(--sidebar-title-color, #FFF);
 }
 
-.sidebar .sidebar-header .sidebar-title {
+.sidebar .sidebar-body .sidebar-header .sidebar-title {
     width: calc((100% - 2rem) * .5);
 }
 
-.sidebar .sidebar-header .sidebar-title.logo {
+.sidebar .sidebar-body .sidebar-header .sidebar-title.logo {
     width: calc((100% - 2rem) * .5);
     height: 100%;
 }
 
-.sidebar .sidebar-header .sidebar-title.logo img {
+.sidebar .sidebar-body .sidebar-header .sidebar-title.logo img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     object-position: left;
 }
 
-.sidebar.left .sidebar-header .sidebar-title.logo img {
+.sidebar.left .sidebar-body .sidebar-header .sidebar-title.logo img {
     object-position: left;
 }
 
-.sidebar.right .sidebar-header .sidebar-title.logo img {
+.sidebar.right .sidebar-body .sidebar-header .sidebar-title.logo img {
     object-position: right;
 }
 
-.sidebar .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
+.sidebar .sidebar-body .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
     width: 100%;
     line-height: 4.6rem;
-    color: var(--sidebar-title-color);
+    color: var(--sidebar-title-color, #FFF);
     font-size: 1.1rem;
 }
 
-.sidebar.left .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
+.sidebar.left .sidebar-body .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
     text-align: left;
 }
 
-.sidebar.right .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
+.sidebar.right .sidebar-body .sidebar-header .sidebar-title :where(h1, h2, h3, h4, h5, h6) {
     text-align: right;
 }
 
-.sidebar .sidebar-header .sidebar-title.logo :where(h1, h2, h3, h4, h5, h6) {
+.sidebar .sidebar-body .sidebar-header .sidebar-title.logo :where(h1, h2, h3, h4, h5, h6) {
     display: none;
 }
 
-.sidebar .sidebar-header .sidebar-button {
+.sidebar .sidebar-body .sidebar-header .sidebar-button {
     display: flex;
     align-items: center;
     height: 100%;
     text-decoration: none;
-    color: var(--sidebar-title-color);
+    color: var(--sidebar-title-color, #FFF);
 }
 
-.sidebar .sidebar-header .sidebar-button .sidebar-icon {
-    color: var(--sidebar-icon-color);
+.sidebar .sidebar-body .sidebar-header .sidebar-button .sidebar-icon {
+    color: var(--sidebar-icon-color, #DDD);
 }
 
-.sidebar .nav-menu.neon .sidebar .sidebar-header .sidebar-button {
+.sidebar .nav-menu.neon .sidebar .sidebar-body .sidebar-header .sidebar-button {
     text-shadow: 0 0 19px var(--sidebar-shadow-color);
 }
 
-.sidebar .sidebar-header .sidebar-button::before {
-    content: '';
+.sidebar .sidebar-body .sidebar-header .sidebar-button::before {
+    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -122,104 +118,100 @@
     transition: 500ms;
 }
 
-.sidebar.left .sidebar-header .sidebar-button::before {
+.sidebar.left .sidebar-body .sidebar-header .sidebar-button::before {
     left: 100%;
 }
 
-.sidebar.right .sidebar-header .sidebar-button::before {
+.sidebar.right .sidebar-body .sidebar-header .sidebar-button::before {
     right: 100%;
 }
 
-.sidebar.opened .sidebar-header .sidebar-button::before {
+.sidebar.opened .sidebar-body .sidebar-header .sidebar-button::before {
     background-color: rgba(0,0,0,.5);
 }
 
-.sidebar .sidebar-content {
-    width: 100%;
-    min-height: calc(100% - 9.2rem);
-    box-sizing: border-box;
-    background-color: var(--sidebar-background-color);
+/* * Content */
+.sidebar .sidebar-body .sidebar-content {
+    background-color: var(--sidebar-content-background-color, var(--sidebar-background-color, #FFF));
 }
 
-.sidebar .sidebar-content .sidebar-menu-list {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list li {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list li {
     position: relative;
     padding: 1rem;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list li::before {
-    content: '';
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list li::before {
+    content: "";
     position: absolute;
     top: 0;
     left: 1rem;
     right: 1rem;
     height: 1px;
-    background-color: var(--sidebar-border-color);
+    background-color: var(--sidebar-border-color, #DDD);
 }
 
-.sidebar .sidebar-content .sidebar-menu-list > li:first-of-type::before {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list > li:first-of-type::before {
     height: 0;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list li:last-child {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list li:last-child {
     border: none;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-link,
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link,
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button {
     display: inline-flex;
     align-items: center;
     height: 2.3rem;
     line-height: 2.3rem;
     text-decoration: none;
-    color: var(--sidebar-button-color);
+    color: var(--sidebar-button-color, #222);
     transition: 500ms;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-link:hover,
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-link.active {
-    color: var(--sidebar-button-color-alternative);
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link:hover,
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link.active {
+    color: var(--sidebar-button-color-alternative, #000);
 }
 
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-link.no-text,
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button.no-text {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link.no-text,
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button.no-text {
     font-size: 0;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-link .link-icon,
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button .link-icon {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link .link-icon,
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button .link-icon {
     margin-right: .5rem;
 }
 
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button {
-    border: 1px solid var(--sidebar-border-color);
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button {
+    border: 1px solid var(--sidebar-border-color, #DDD);
 }
 
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button:focus,
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button:hover,
-.sidebar .sidebar-content .sidebar-menu-list .sidebar-button.active {
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button:focus,
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button:hover,
+.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button.active {
     outline: none;
-    border-color: var(--sidebar-border-color-alternative);
+    border-color: var(--sidebar-border-color-alternative, #DDD);
 }
 
-.sidebar .sidebar-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+/* * Footer */
+.sidebar .sidebar-body .sidebar-footer {
     width: 100%;
     min-height: 4.6rem;
     height: 4.6rem;
     padding: 1rem;
-    border-top: 1px solid var(--sidebar-border-color);
-    background-color: var(--sidebar-background-color);
+    border-top: 1px solid var(--sidebar-border-color, #DDD);
+    background-color: var(--sidebar-footer-background-color, var(--sidebar-background-color, #FFF));
 }
 
-.sidebar .sidebar-footer .sidebar-footer-menu-list {
+.sidebar .sidebar-body .sidebar-footer .sidebar-footer-menu-list {
     margin: 0;
     padding: 0;
     display: flex;
@@ -231,25 +223,26 @@
     height: 100%;
 }
 
-.sidebar .sidebar-footer .sidebar-footer-menu-list li {
+.sidebar .sidebar-body .sidebar-footer .sidebar-footer-menu-list li {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.sidebar .sidebar-footer .sidebar-footer-menu-list .sidebar-footer-link {
-    color: var(--sidebar-button-color);
+.sidebar .sidebar-body .sidebar-footer .sidebar-footer-menu-list .sidebar-footer-link {
+    color: var(--sidebar-button-color, #222);
     text-decoration: none;
 }
 
-.sidebar .sidebar-footer .sidebar-footer-text {
+.sidebar .sidebar-body .sidebar-footer .sidebar-footer-text {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 2.3rem;
-    color: var(--sidebar-button-color);
+    color: var(--sidebar-button-color, #222);
 }
 
+/* * Miscellaneous */
 .sidebar .link-icon {
     display: inline-flex;
     justify-content: center;
@@ -257,7 +250,7 @@
     width: 1rem;
     height: 100%;
     font-size: 1rem;
-    color: var(--sidebar-icon-color);
+    color: var(--sidebar-icon-color, #DDD);
 }
 
 .sidebar .link-icon.left {
