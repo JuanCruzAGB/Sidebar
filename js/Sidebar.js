@@ -1,17 +1,6 @@
 // ? JuanCruzAGB repository
 import Class from "../../JuanCruzAGB/js/Class.js";
 
-/** @var {object} defaultProps Default properties. */
-let defaultProps = {
-    id: 'sidebar-1',
-    position: 'left',
-};
-
-/** @var {object} defaultState Default state. */
-let defaultState = {
-    open: false,
-};
-
 /**
  * * Sidebar makes an excellent sidebar.
  * @export
@@ -22,25 +11,83 @@ let defaultState = {
 export class Sidebar extends Class {
     /**
      * * Creates an instance of Sidebar.
-     * @param {object} [props] Sidebar properties:
-     * @param {string} [props.id='sidebar-1'] Sidebar primary key.
-     * @param {string} [props.position='left'] Sidebar position.
-     * @param {object} [state] Sidebar state:
-     * @param {boolean} [state.open=false] Sidebar open state.
+     * @param {object} [data]
+     * @param {object} [data.props]
+     * @param {string} [data.props.id="sidebar-1"] Sidebar primary key.
+     * @param {string} [data.props.position="left"] Sidebar position.
+     * @param {object} [data.state]
+     * @param {boolean} [data.state.open=false] If the Sidebar should be opened.
+     * @param {object} [data.state.viewport={"1024":true}] The viewport where the Sidebar should be opened.
+     * @param {object} [data.callbacks]
+     * @param {object} [data.callbacks.close]
+     * @param {function} [data.callbacks.close.function]
+     * @param {object} [data.callbacks.close.params]
+     * @param {object} [data.callbacks.open]
+     * @param {function} [data.callbacks.open.function]
+     * @param {object} [data.callbacks.open.params]
      * @memberof Sidebar
      */
     constructor (props = {
-        id: 'sidebar-1',
-        position: 'left',
+        id: "sidebar-1",
+        position: "left",
     }, state = {
         open: false,
-    }) {
-        super({ ...defaultProps, ...props }, { ...defaultState, ...state });
-        if (document.querySelector(`#${ this.props.id }.sidebar`)) {
-            this.setHTML(document.querySelector(`#${ this.props.id }.sidebar`));
-        }
+        viewport: {
+            "425": false,
+            "768": false,
+            "1024": false,
+            "1336": false,
+            "1536": false,
+            "1920": false,
+    }}, callbacks = {
+        close: {
+            function: function (params) { /* console.log(params); */ },
+            params: {},
+        }, open: {
+            function: function (params) { console.log(params); },
+            params: {},
+    }}) {
+        super({ ...Sidebar.props, ...props }, { ...Sidebar.state, ...state });
+        this.setCallbacks({ ...Sidebar.callbacks, ...callbacks });
+        this.setHTML(document.querySelector(`#${ this.props.id }.sidebar`));
         this.setButtons();
         this.checkState();
+    }
+
+    /**
+     * * Set the close & the open buttons buttons.
+     * @memberof Sidebar
+     */
+    setButtons () {
+        if (!this.buttons) {
+            this.buttons = {
+                open: [],
+                close: [],
+            };
+        }
+        for (const btn of Sidebar.openButtonQuerySelector(this.props.position)) {
+            console.log([
+                btn.href.split("#").pop(),
+                this.props.id
+            ]);
+            if (btn.href.split("#").pop() == this.props.id) {
+                this.buttons.open.push(btn);
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    this.switch();
+                });
+            }
+        }
+        for (const btn of Sidebar.closeButtonQuerySelector(this.props.position)) {
+            if (btn.href.split("#").pop() == this.props.id) {
+                this.buttons.close.push(btn);
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    this.switch();
+                });
+            }
+        }
+        this.addEventToSidebarButtons();
     }
 
     /**
@@ -55,49 +102,28 @@ export class Sidebar extends Class {
      * * Check the Sidebar open state.
      * @memberof Dropdown
      */
-     checkOpenState () {
+    checkOpenState () {
         if (this.state.open) {
-            this.switch();
-        }
-    }
-
-    /**
-     * * Set the opener & the closer buttons.
-     * @memberof Sidebar
-     */
-    setButtons () {
-        let sidebar = this;
-        this.buttons = {
-            open: [],
-            close: [],
-        };
-        if (document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`).length) {
-            for (const btn of document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`)) {
-                if (btn.href.split('#').pop() === this.props.id) {
-                    this.buttons.open.push(btn);
-                    btn.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        sidebar.switch();
-                    });
+            let open = true;
+            if (this.state.hasOwnProperty("viewport")) {
+                open = false;
+                for (const width in this.state.viewport) {
+                    if (Object.hasOwnProperty.call(this.state.viewport, width)) {
+                        if (window.outerWidth >= width) {
+                            open = this.state.viewport[width];
+                        }
+                    }
                 }
             }
-        } else {
-            console.warn(`There is not sidebar-${ this.props.position } open button`);
-        }
-        if (document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`).length) {
-            for (const btn of document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`)) {
-                if (btn.href.split('#').pop() === this.props.id) {
-                    this.buttons.close.push(btn);
-                    btn.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        sidebar.switch();
-                    });
-                }
+            switch (open) {
+                case true:
+                    this.open();
+                    break;
+                case false:
+                    this.close();
+                    break;
             }
-        } else {
-            console.warn(`There is not sidebar-${ this.props.position } close button`);
         }
-        this.addEventToSidebarButtons();
     }
 
     /**
@@ -105,11 +131,9 @@ export class Sidebar extends Class {
      * @memberof Sidebar
      */
     addEventToSidebarButtons () {
-        let sidebar = this;
-        let sidebarButtons = document.querySelectorAll(`#${ this.props.id } .sidebar-link.sidebar-button`);
-        for (const btn of sidebarButtons) {
-            btn.addEventListener('click', function (e) {
-                sidebar.switch();
+        for (const btn of Sidebar.sidebarButtonQuerySelector(this.props.id)) {
+            btn.addEventListener("click", (e) => {
+                this.switch();
             });
         }
     }
@@ -130,30 +154,97 @@ export class Sidebar extends Class {
         }
     }
     
-	/**
-     * * Open the Sidebar
+    /**
+     * * Close the Sidebar
+     * @param {object} [params]
      * @memberof Sidebar
      */
-    open () {
-        this.setState('open', true);
-        if (this.html.classList.contains('closed')) {
-            this.html.classList.remove('closed');
-        }
-        this.html.classList.add('opened');
+    close (params = {}) {
+        this.setState("open", false);
+        this.html.classList.remove("opened");
+        this.html.classList.add("closed");
+        this.execute("close", {
+            ...params,
+            sidebar: this,
+            open: this.state.open,
+        });
+    }
+    
+	/**
+     * * Open the Sidebar
+     * @param {object} [params]
+     * @memberof Sidebar
+     */
+    open (params = {}) {
+        this.setState("open", true);
+        this.html.classList.remove("closed");
+        this.html.classList.add("opened");
+        this.execute("open", {
+            ...params,
+            sidebar: this,
+            open: this.state.open,
+        });
     }
     
     /**
-     * * Close the Sidebar
-     * @memberof Sidebar
+     * * Returns all the Sidebar close Buttons.
+     * @static
+     * @param {string} position
+     * @returns {HTMLElement[]}
      */
-    close () {
-        this.setState('open', false);
-        if (this.html.classList.contains('opened')) {
-            this.html.classList.remove('opened');
-        }
-        this.html.classList.add('closed');
+    static closeButtonQuerySelector (position) {
+        return document.querySelectorAll(`.sidebar-button.close-btn.${ position }`);
     }
+    
+    /**
+     * * Returns all the Sidebar open Buttons.
+     * @static
+     * @param {string} position
+     * @returns {HTMLElement[]}
+     */
+    static openButtonQuerySelector (position) {
+        return document.querySelectorAll(`.sidebar-button.open-btn.${ position }`);
+    }
+    
+    /**
+     * * Returns all the Sidebar Buttons.
+     * @static
+     * @param {string} id
+     * @returns {HTMLElement[]}
+     */
+    static sidebarButtonQuerySelector (id) {
+        return document.querySelectorAll(`#${ id } .sidebar-link.sidebar-button`);
+    }
+
+    /**
+     * @static
+     * @var {object} props Default properties.
+     */
+    static props = {
+        id: "sidebar-1",
+        position: "left",
+    }
+    
+    /**
+     * @static
+     * @var {object} state Default state.
+     */
+    static state = {
+        open: false,
+    }
+    
+    /**
+     * @static
+     * @var {object} callbacks Default callbacks.
+     */
+    static callbacks = {
+        close: {
+            function: function (params) { /* console.log(params); */ },
+            params: {},
+        }, open: {
+            function: function (params) { console.log(params); },
+            params: {},
+    }}
 }
 
-// ? Default export
 export default Sidebar;
