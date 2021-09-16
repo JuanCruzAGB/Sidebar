@@ -66,10 +66,6 @@ export class Sidebar extends Class {
             };
         }
         for (const btn of Sidebar.openButtonQuerySelector(this.props.position)) {
-            console.log([
-                btn.href.split("#").pop(),
-                this.props.id
-            ]);
             if (btn.href.split("#").pop() == this.props.id) {
                 this.buttons.open.push(btn);
                 btn.addEventListener("click", (e) => {
