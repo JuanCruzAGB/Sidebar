@@ -28,12 +28,12 @@
     display: none;
 }
 
-.sidebar.left.closed {
+.sidebar.left:not(.opened) {
     transform: translateX(-101%);
     overflow-x: hidden;
 }
 
-.sidebar.right.closed {
+.sidebar.right:not(.opened) {
     transform: translateX(135%);
     overflow-x: hidden;
 }

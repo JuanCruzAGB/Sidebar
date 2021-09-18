@@ -42,7 +42,7 @@ export default class Button extends Class {
      */
     static generate (Sidebar) {
         let buttons = [];
-        let htmls = Button.querySelector(Sidebar.props.id);
+        let htmls = this.querySelector(Sidebar.props.id);
         for (const key in htmls) {
             if (Object.hasOwnProperty.call(htmls, key)) {
                 props.id = `link-${ key }`;

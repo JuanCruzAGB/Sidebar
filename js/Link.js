@@ -94,7 +94,7 @@ export default class Link extends Class {
      */
     static generate (Sidebar) {
         let links = [];
-        let htmls = Link.querySelector(Sidebar.props.id);
+        let htmls = this.querySelector(Sidebar.props.id);
         for (const key in htmls) {
             if (Object.hasOwnProperty.call(htmls, key)) {
                 links.push(new this({

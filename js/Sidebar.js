@@ -1,6 +1,10 @@
 // ? JuanCruzAGB repository
 import Class from "../../JuanCruzAGB/js/Class.js";
 
+// ? Dropdown repository
+import Button from "./Button.js";
+import Link from "./Link.js";
+
 /**
  * * Sidebar makes an excellent sidebar.
  * @export
@@ -49,16 +53,16 @@ export default class Sidebar extends Class {
             },
         }, callbacks: {
             active: {
-                function: function (params) { /* console.log(params); */ },
+                function: (params) => { /* console.log(params); */ },
                 params: {},
             }, close: {
-                function: function (params) { /* console.log(params); */ },
+                function: (params) => { /* console.log(params); */ },
                 params: {},
             }, open: {
-                function: function (params) { /* console.log(params); */ },
+                function: (params) => { /* console.log(params); */ },
                 params: {},
             }, switch: {
-                function: function (params) { /* console.log(params); */ },
+                function: (params) => { /* console.log(params); */ },
                 params: {},
             },
         },
@@ -156,6 +160,7 @@ export default class Sidebar extends Class {
             }
             this.execute("active", {
                 ...params,
+                ...this.callbacks.active.params,
                 current: current,
                 link: found,
                 Sidebar: this,
@@ -169,32 +174,32 @@ export default class Sidebar extends Class {
     }
     
     /**
-     * * Close the Sidebar
+     * * Close the Sidebar.
      * @param {object} [params]
      * @memberof Sidebar
      */
     close (params = {}) {
         this.setState("open", false);
         this.html.classList.remove("opened");
-        this.html.classList.add("closed");
         this.execute("close", {
             ...params,
+            ...this.callbacks.close.params,
             open: this.state.open,
             Sidebar: this,
         });
     }
     
 	/**
-     * * Open the Sidebar
+     * * Open the Sidebar.
      * @param {object} [params]
      * @memberof Sidebar
      */
     open (params = {}) {
         this.setState("open", true);
-        this.html.classList.remove("closed");
         this.html.classList.add("opened");
         this.execute("open", {
             ...params,
+            ...this.callbacks.open.params,
             open: this.state.open,
             Sidebar: this,
         });
@@ -218,6 +223,7 @@ export default class Sidebar extends Class {
         }
         this.execute("switch", {
             ...params,
+            ...this.callbacks.switch.params,
             open: open,
             Sidebar: this,
         });
@@ -248,16 +254,16 @@ export default class Sidebar extends Class {
      */
     static callbacks = {
         active: {
-            function: function (params) { /* console.log(params); */ },
+            function: (params) => { /* console.log(params); */ },
             params: {},
         }, close: {
-            function: function (params) { /* console.log(params); */ },
+            function: (params) => { /* console.log(params); */ },
             params: {},
         }, open: {
-            function: function (params) { /* console.log(params); */ },
+            function: (params) => { /* console.log(params); */ },
             params: {},
         }, switch: {
-            function: function (params) { /* console.log(params); */ },
+            function: (params) => { /* console.log(params); */ },
             params: {},
         },
     }
