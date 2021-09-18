@@ -1,0 +1,33 @@
+.tab-menu .sidebar.tabs {
+    width: 75%;
+}
+
+.sidebar.tabs .sidebar-body .sidebar-header,
+.sidebar.tabs .sidebar-body .sidebar-content .sidebar-menu-list li {
+    padding: 0;
+}
+
+/* ? MD */
+@media (min-width: 768px) {
+    /*  */
+}
+
+/* ? LG */
+@media (min-width: 1024px) {
+    /*  */
+}
+
+/* ? XL */
+@media (min-width: 1200px) {
+    /*  */
+}
+
+/* ? 2XL */
+@media (min-width: 1536px) {
+    /*  */
+}
+
+/* ? 3XL */
+@media (min-width: 1920px) {
+    /*  */
+}

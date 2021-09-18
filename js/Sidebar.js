@@ -1,17 +1,6 @@
 // ? JuanCruzAGB repository
 import Class from "../../JuanCruzAGB/js/Class.js";
 
-/** @var {object} defaultProps Default properties. */
-let defaultProps = {
-    id: 'sidebar-1',
-    position: 'left',
-};
-
-/** @var {object} defaultState Default state. */
-let defaultState = {
-    open: false,
-};
-
 /**
  * * Sidebar makes an excellent sidebar.
  * @export
@@ -19,28 +8,83 @@ let defaultState = {
  * @author Juan Cruz Armentia <juancarmentia@gmail.com>
  * @extends Class
  */
-export class Sidebar extends Class {
+export default class Sidebar extends Class {
     /**
      * * Creates an instance of Sidebar.
-     * @param {object} [props] Sidebar properties:
-     * @param {string} [props.id='sidebar-1'] Sidebar primary key.
-     * @param {string} [props.position='left'] Sidebar position.
-     * @param {object} [state] Sidebar state:
-     * @param {boolean} [state.open=false] Sidebar open state.
+     * @param {object} [data]
+     * @param {object} [data.props]
+     * @param {string} [data.props.id="sidebar-1"] Sidebar primary key.
+     * @param {object} [data.state]
+     * @param {string} [data.state.current=false] Sidebar current Link state.
+     * @param {boolean} [data.state.open=false] If the Sidebar should be opened.
+     * @param {object} [data.state.viewport={"1024":true}] The viewport where the Sidebar should be opened.
+     * @param {object} [data.callbacks]
+     * @param {object} [data.callbacks.active]
+     * @param {function} [data.callbacks.active.function]
+     * @param {object} [data.callbacks.active.params]
+     * @param {object} [data.callbacks.close]
+     * @param {function} [data.callbacks.close.function]
+     * @param {object} [data.callbacks.close.params]
+     * @param {object} [data.callbacks.open]
+     * @param {function} [data.callbacks.open.function]
+     * @param {object} [data.callbacks.open.params]
+     * @param {object} [data.callbacks.switch]
+     * @param {function} [data.callbacks.switch.function]
+     * @param {object} [data.callbacks.switch.params]
      * @memberof Sidebar
      */
-    constructor (props = {
-        id: 'sidebar-1',
-        position: 'left',
-    }, state = {
-        open: false,
+    constructor (data = {
+        props: {
+            id: "sidebar-1",
+        }, state: {
+            current: false,
+            open: false,
+            viewport: {
+                "425": false,
+                "768": false,
+                "1024": false,
+                "1336": false,
+                "1536": false,
+                "1920": false,
+            },
+        }, callbacks: {
+            active: {
+                function: function (params) { /* console.log(params); */ },
+                params: {},
+            }, close: {
+                function: function (params) { /* console.log(params); */ },
+                params: {},
+            }, open: {
+                function: function (params) { /* console.log(params); */ },
+                params: {},
+            }, switch: {
+                function: function (params) { /* console.log(params); */ },
+                params: {},
+            },
+        },
     }) {
-        super({ ...defaultProps, ...props }, { ...defaultState, ...state });
-        if (document.querySelector(`#${ this.props.id }.sidebar`)) {
-            this.setHTML(document.querySelector(`#${ this.props.id }.sidebar`));
-        }
+        super({ ...Sidebar.props, ...((data && data.hasOwnProperty("props")) ? data.props : {}) }, { ...Sidebar.state, ...((data && data.hasOwnProperty("state")) ? data.state : {}) });
+        this.setCallbacks({ ...Sidebar.callbacks, ...((data && data.hasOwnProperty("callbacks")) ? data.callbacks : {}) });
+        this.setHTML(`#${ this.props.id }.sidebar`);
         this.setButtons();
+        this.setLinks();
         this.checkState();
+    }
+
+    /**
+     * * Set the Sidebar Buttons.
+     * @memberof Sidebar
+     */
+    setButtons () {
+        this.buttons = Button.generate(this);
+    }
+
+    /**
+     * * Set the Sidebar Links.
+     * @memberof Sidebar
+     */
+    setLinks () {
+        this.links = Link.generate(this);
     }
 
     /**
@@ -48,70 +92,112 @@ export class Sidebar extends Class {
      * @memberof Sidebar
      */
     checkState () {
+        this.checkCurrentState();
         this.checkOpenState();
+    }
+
+    /**
+     * * Check the NavMenu current state value.
+     * @memberof NavMenu
+     */
+    checkCurrentState () {
+        if (this.state.current) {
+            this.active(this.state.current);
+        }
     }
 
     /**
      * * Check the Sidebar open state.
      * @memberof Dropdown
      */
-     checkOpenState () {
+    checkOpenState () {
         if (this.state.open) {
-            this.switch();
+            let open = true;
+            if (this.state.hasOwnProperty("viewport")) {
+                open = false;
+                for (const width in this.state.viewport) {
+                    if (Object.hasOwnProperty.call(this.state.viewport, width)) {
+                        if (window.outerWidth >= width) {
+                            open = this.state.viewport[width];
+                        }
+                    }
+                }
+            }
+            switch (open) {
+                case true:
+                    this.open();
+                    break;
+                case false:
+                    this.close();
+                    break;
+            }
         }
     }
 
     /**
-     * * Set the opener & the closer buttons.
+     * * Change the Sidebar Link active.
+     * @param {string} current
+     * @param {object} params Active callback function params.
+     * @returns {boolean}
      * @memberof Sidebar
      */
-    setButtons () {
-        let sidebar = this;
-        this.buttons = {
-            open: [],
-            close: [],
-        };
-        if (document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`).length) {
-            for (const btn of document.querySelectorAll(`.sidebar-button.open-btn.${ this.props.position }`)) {
-                if (btn.href.split('#').pop() === this.props.id) {
-                    this.buttons.open.push(btn);
-                    btn.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        sidebar.switch();
-                    });
+    active (current = false, params = {}) {
+        if (current) {
+            this.setState("current", current);
+            let found = false;
+            for (const link of this.links) {
+                if (link.props.target == this.state.current) {
+                    link.active();
+                    found = link;
+                }
+                if (link.props.target != this.state.current) {
+                    link.inactive();
                 }
             }
-        } else {
-            console.warn(`There is not sidebar-${ this.props.position } open button`);
-        }
-        if (document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`).length) {
-            for (const btn of document.querySelectorAll(`.sidebar-button.close-btn.${ this.props.position }`)) {
-                if (btn.href.split('#').pop() === this.props.id) {
-                    this.buttons.close.push(btn);
-                    btn.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        sidebar.switch();
-                    });
-                }
-            }
-        } else {
-            console.warn(`There is not sidebar-${ this.props.position } close button`);
-        }
-        this.addEventToSidebarButtons();
-    }
-
-    /**
-     * * Add the close event to the Sidebar custom buttons.
-     * @memberof Sidebar
-     */
-    addEventToSidebarButtons () {
-        let sidebar = this;
-        let sidebarButtons = document.querySelectorAll(`#${ this.props.id } .sidebar-link.sidebar-button`);
-        for (const btn of sidebarButtons) {
-            btn.addEventListener('click', function (e) {
-                sidebar.switch();
+            this.execute("active", {
+                ...params,
+                current: current,
+                link: found,
+                Sidebar: this,
             });
+            return found;
         }
+        if (!current) {
+            console.error("Current param is required to active a Link");
+            return false;
+        }
+    }
+    
+    /**
+     * * Close the Sidebar
+     * @param {object} [params]
+     * @memberof Sidebar
+     */
+    close (params = {}) {
+        this.setState("open", false);
+        this.html.classList.remove("opened");
+        this.html.classList.add("closed");
+        this.execute("close", {
+            ...params,
+            open: this.state.open,
+            Sidebar: this,
+        });
+    }
+    
+	/**
+     * * Open the Sidebar
+     * @param {object} [params]
+     * @memberof Sidebar
+     */
+    open (params = {}) {
+        this.setState("open", true);
+        this.html.classList.remove("closed");
+        this.html.classList.add("opened");
+        this.execute("open", {
+            ...params,
+            open: this.state.open,
+            Sidebar: this,
+        });
     }
 
     /**
@@ -119,41 +205,60 @@ export class Sidebar extends Class {
      * @returns {boolean}
      * @memberof Sidebar
      */
-    switch () {
-        switch (this.state.open) {
+    switch (open = false, params = {}) {
+        if (typeof open != "boolean") {
+            console.error("Open param is required & should be a boolean, to switch the Sidebar");
+            return false;
+        }
+        switch (open) {
             case true:
                 this.close();
-                return false;
             case false:
                 this.open();
-                return true;
         }
+        this.execute("switch", {
+            ...params,
+            open: open,
+            Sidebar: this,
+        });
+        return open;
     }
-    
-	/**
-     * * Open the Sidebar
-     * @memberof Sidebar
+
+    /**
+     * @static
+     * @var {object} props Default properties.
      */
-    open () {
-        this.setState('open', true);
-        if (this.html.classList.contains('closed')) {
-            this.html.classList.remove('closed');
-        }
-        this.html.classList.add('opened');
+    static props = {
+        id: "sidebar-1",
     }
     
     /**
-     * * Close the Sidebar
-     * @memberof Sidebar
+     * @static
+     * @var {object} state Default state.
      */
-    close () {
-        this.setState('open', false);
-        if (this.html.classList.contains('opened')) {
-            this.html.classList.remove('opened');
-        }
-        this.html.classList.add('closed');
+    static state = {
+        current: false,
+        // TODO: generate: false,
+        open: false,
+    }
+    
+    /**
+     * @static
+     * @var {object} callbacks Default callbacks.
+     */
+    static callbacks = {
+        active: {
+            function: function (params) { /* console.log(params); */ },
+            params: {},
+        }, close: {
+            function: function (params) { /* console.log(params); */ },
+            params: {},
+        }, open: {
+            function: function (params) { /* console.log(params); */ },
+            params: {},
+        }, switch: {
+            function: function (params) { /* console.log(params); */ },
+            params: {},
+        },
     }
 }
-
-// ? Default export
-export default Sidebar;
