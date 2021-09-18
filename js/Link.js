@@ -29,17 +29,17 @@ export default class Link extends Class {
             type: "link",
         }, state: {
             active: false,
-        }, html, Sidebar,
+        }, html,
+        Sidebar,
     }) {
         super({ ...Link.props, ...((data && data.hasOwnProperty("props")) ? data.props : {}) }, { ...Link.state, ...((data && data.hasOwnProperty("state")) ? data.state : {}) });
-        // TODO: If the html was not found, create it with HTMLCreatorJS
         this.setHTML(data.html);
         this.html.addEventListener("click", (e) => {
             if (this.props.type == "button") {
                 e.preventDefault();
-                Sidebar.switch(false);
+                data.Sidebar.switch(false);
             }
-            Sidebar.active(this.props.target);
+            data.Sidebar.active(this.props.target);
         });
         this.checkState();
     }

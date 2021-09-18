@@ -26,11 +26,25 @@ export default class Button extends Class {
         }, html, Sidebar,
     }) {
         super({ ...Button.props, ...((data && data.hasOwnProperty("props")) ? data.props : {}) });
-        // TODO: If the html was not found, create it with HTMLCreatorJS
-        this.setHTML(html);
-        this.html.addEventListener("click", (e) => {
-            Sidebar.switch(this.props.target);
-        });
+        this.setHTMLs([ data.html ], data.Sidebar);
+    }
+
+    /**
+     * * Set the Button HTML Elements.
+     * @param {HTMLElement[]} htmls
+     * @param {Sidebar} Sidebar Button Sidebar parent.
+     * @memberof Button
+     */
+    setHTMLs (htmls = [], Sidebar) {
+        if (!this.htmls) {
+            this.htmls = [];
+        }
+        for (const html of htmls) {
+            btn.addEventListener("click", (e) => {
+                Sidebar.switch(this.props.target);
+            })
+            this.htmls.push(html);
+        }
     }
 
     /**
@@ -45,14 +59,23 @@ export default class Button extends Class {
         let htmls = this.querySelector(Sidebar.props.id);
         for (const key in htmls) {
             if (Object.hasOwnProperty.call(htmls, key)) {
-                props.id = `link-${ key }`;
-                buttons.push(new this({
-                    props: {
-                        id: `link-${ key }`,
-                        target: htmls[key].hasAttribute("open"),
-                    }, html: htmls[key],
-                    Sidebar: Sidebar,
-                }));
+                let found = false;
+                for (const button of buttons) {
+                    if (button.props.target == htmls[key].hasAttribute("open")) {
+                        button.setHTMLs([htmls[key]], Sidebar);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    buttons.push(new this({
+                        props: {
+                            id: `link-${ key }`,
+                            target: htmls[key].hasAttribute("open"),
+                        }, html: htmls[key],
+                        Sidebar: Sidebar,
+                    }));
+                }
             }
         }
         return buttons;

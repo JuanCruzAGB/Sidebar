@@ -267,4 +267,16 @@ export default class Sidebar extends Class {
             params: {},
         },
     }
+
+    /** 
+     * @static
+     * @var {Button} Button
+     */
+    static Button = Button
+
+    /** 
+     * @static
+     * @var {Link} Link
+     */
+    static Link = Link
 }
