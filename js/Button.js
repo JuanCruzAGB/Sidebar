@@ -40,7 +40,7 @@ export default class Button extends Class {
             this.htmls = [];
         }
         for (const html of htmls) {
-            btn.addEventListener("click", (e) => {
+            html.addEventListener("click", (e) => {
                 Sidebar.switch(this.props.target);
             })
             this.htmls.push(html);
@@ -61,7 +61,7 @@ export default class Button extends Class {
             if (Object.hasOwnProperty.call(htmls, key)) {
                 let found = false;
                 for (const button of buttons) {
-                    if (button.props.target == htmls[key].hasAttribute("open")) {
+                    if (button.props.target == htmls[key].classList.contains("open")) {
                         button.setHTMLs([htmls[key]], Sidebar);
                         found = true;
                         break;
@@ -71,7 +71,7 @@ export default class Button extends Class {
                     buttons.push(new this({
                         props: {
                             id: `link-${ key }`,
-                            target: htmls[key].hasAttribute("open"),
+                            target: htmls[key].classList.contains("open"),
                         }, html: htmls[key],
                         Sidebar: Sidebar,
                     }));

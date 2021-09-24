@@ -217,9 +217,11 @@ export default class Sidebar extends Class {
         }
         switch (open) {
             case true:
-                this.close();
-            case false:
                 this.open();
+                break;
+                case false:
+                this.close();
+                break;
         }
         this.execute("switch", {
             ...params,
