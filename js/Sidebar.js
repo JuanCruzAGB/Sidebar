@@ -115,8 +115,7 @@ export default class Sidebar extends Class {
      * @memberof Dropdown
      */
     checkOpenState () {
-        if (this.state.open) {
-            let open = true;
+        // if (this.state.open) {
             if (this.state.hasOwnProperty("viewport")) {
                 open = false;
                 for (const width in this.state.viewport) {
@@ -126,16 +125,16 @@ export default class Sidebar extends Class {
                         }
                     }
                 }
+                switch (open) {
+                    case true:
+                        this.open();
+                        break;
+                    case false:
+                        this.close();
+                        break;
+                }
             }
-            switch (open) {
-                case true:
-                    this.open();
-                    break;
-                case false:
-                    this.close();
-                    break;
-            }
-        }
+        // }
     }
 
     /**

@@ -49,6 +49,7 @@
     width: 100%;
     height: 100vh;
     padding: 0 var(--sidebar-sm-padding, 1rem);
+    background-color: var(--sidebar-background-color, #FFF);
     overflow-y: scroll;
 }
 
@@ -94,6 +95,7 @@
 .sidebar .sidebar-body .sidebar-header .sidebar-button {
     display: flex;
     align-items: center;
+    width: 0;
     height: 100%;
     color: transparent;
 }
@@ -145,7 +147,7 @@
 }
 
 .sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link:where(:hover, .active) {
-    color: var(--sidebar-button-color-alternative, #000);
+    color: var(--sidebar-button-color-alt, #000);
 }
 
 .sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button {
@@ -153,7 +155,7 @@
 }
 
 .sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button:where(:focus, :hover, .active) {
-    border-color: var(--sidebar-border-color-alternative, #DDD);
+    border-color: var(--sidebar-border-color-alt, #DDD);
     outline: none;
 }
 

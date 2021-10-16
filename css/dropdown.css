@@ -8,12 +8,12 @@
     transition: 500ms;
 }
 
-/* * MD */
+/* ? MD */
 @media (min-width: 768px) {
     /**/
 }
 
-/* * LG */
+/* ? LG */
 @media (min-width: 1024px) {
     .sidebar.closed .dropdown:hover {
         overflow: hidden;
@@ -34,7 +34,7 @@
     }
 }
 
-/* * XL */
+/* ? XL */
 @media (min-width: 1200px) {
     /**/
 }

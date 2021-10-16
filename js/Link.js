@@ -36,7 +36,7 @@ export default class Link extends Class {
         this.setHTML(data.html);
         this.html.addEventListener("click", (e) => {
             if (this.props.type == "button") {
-                e.preventDefault();
+                // e.preventDefault();
                 data.Sidebar.switch(false);
             }
             data.Sidebar.active(this.props.target);
@@ -121,7 +121,7 @@ export default class Link extends Class {
      */
     static querySelector (id = false) {
         if (id) {
-            return document.querySelectorAll(`#${ id }.sidebar-menu :where(.sidebar-link, .sidebar-button)`);
+            return document.querySelectorAll(`#${ id }.sidebar .sidebar-menu-list :where(.sidebar-link, .sidebar-button)`);
         }
         if (!id) {
             console.error("ID param is required to get the Sidebar Links");

@@ -1,5 +1,6 @@
 .tab-menu .sidebar.tabs {
     width: 75%;
+    height: 100vh;
 }
 
 .sidebar.tabs .sidebar-body .sidebar-header,
