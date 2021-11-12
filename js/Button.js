@@ -6,7 +6,7 @@ import Class from "../../JuanCruzAGB/js/Class.js";
  * @export
  * @class Button
  * @extends Class
- * @author Juan Cruz Armentia <juancarmentia@gmail.com>
+ * @author Juan Cruz Armentia <juan.cruz.armentia@gmail.com>
  */
 export default class Button extends Class {
     /**
@@ -25,7 +25,15 @@ export default class Button extends Class {
             target: true,
         }, html, Sidebar,
     }) {
-        super({ ...Button.props, ...((data && data.hasOwnProperty("props")) ? data.props : {}) });
+        super({
+            props: {
+                ...Button.props,
+                ...(data && data.hasOwnProperty("props")) ? data.props : {},
+            }, state: {
+                ...Button.state,
+                ...(data && data.hasOwnProperty("state")) ? data.state : {},
+            },
+        });
         this.setHTMLs([ data.html ], data.Sidebar);
     }
 
@@ -105,5 +113,13 @@ export default class Button extends Class {
     static props = {
         id: "button-1",
         target: true,
+    }
+    
+    /**
+     * @static
+     * @var {object} state Default state.
+     */
+    static state = {
+        // 
     }
 }

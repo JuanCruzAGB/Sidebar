@@ -9,7 +9,7 @@ import Link from "./Link.js";
  * * Sidebar makes an excellent sidebar.
  * @export
  * @class Sidebar
- * @author Juan Cruz Armentia <juancarmentia@gmail.com>
+ * @author Juan Cruz Armentia <juan.cruz.armentia@gmail.com>
  * @extends Class
  */
 export default class Sidebar extends Class {
@@ -67,7 +67,15 @@ export default class Sidebar extends Class {
             },
         },
     }) {
-        super({ ...Sidebar.props, ...((data && data.hasOwnProperty("props")) ? data.props : {}) }, { ...Sidebar.state, ...((data && data.hasOwnProperty("state")) ? data.state : {}) });
+        super({
+            props: {
+                ...Sidebar.props,
+                ...(data && data.hasOwnProperty("props")) ? data.props : {},
+            }, state: {
+                ...Sidebar.state,
+                ...(data && data.hasOwnProperty("state")) ? data.state : {},
+            },
+        });
         this.setCallbacks({ ...Sidebar.callbacks, ...((data && data.hasOwnProperty("callbacks")) ? data.callbacks : {}) });
         this.setHTML(`#${ this.props.id }.sidebar`);
         this.setButtons();

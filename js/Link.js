@@ -6,7 +6,7 @@ import Class from "../../JuanCruzAGB/js/Class.js";
  * @export
  * @class Link
  * @extends Class
- * @author Juan Cruz Armentia <juancarmentia@gmail.com>
+ * @author Juan Cruz Armentia <juan.cruz.armentia@gmail.com>
  */
 export default class Link extends Class {
     /**
@@ -32,7 +32,15 @@ export default class Link extends Class {
         }, html,
         Sidebar,
     }) {
-        super({ ...Link.props, ...((data && data.hasOwnProperty("props")) ? data.props : {}) }, { ...Link.state, ...((data && data.hasOwnProperty("state")) ? data.state : {}) });
+        super({
+            props: {
+                ...Link.props,
+                ...(data && data.hasOwnProperty("props")) ? data.props : {},
+            }, state: {
+                ...Link.state,
+                ...(data && data.hasOwnProperty("state")) ? data.state : {},
+            },
+        });
         this.setHTML(data.html);
         this.html.addEventListener("click", (e) => {
             if (this.props.type == "button") {
