@@ -1,40 +1,40 @@
 // ? JuanCruzAGB repository
-import Class from "../../JuanCruzAGB/js/Class.js";
+import Class from '@juancruzagb/src';
 
 /**
- * * Button controls the Sidebar Buttons.
+ * * Button controls the tab button.
  * @export
  * @class Button
- * @extends Class
+ * @extends {Class}
  * @author Juan Cruz Armentia <juan.cruz.armentia@gmail.com>
  */
-export default class Button extends Class {
+export class Button extends Class {
     /**
      * * Creates an instance of Button.
      * @param {object} [data]
+     * @param {HTMLElement} [data.html]
      * @param {object} [data.props]
-     * @param {string} [data.props.id="button-1"] Button primary key.
-     * @param {boolean} [data.props.target=true]
-     * @param {string} html Button HTML Element.
-     * @param {Sidebar} Sidebar Button Sidebar parent.
+     * @param {string} [data.props.id='button-1'] Button primary key.
+     * @param {string} [data.props.target=undefined]
+     * @param {Sidebar} [data.Sidebar]
      * @memberof Button
      */
     constructor (data = {
+        html,
         props: {
-            id: "button-1",
-            target: true,
-        }, html, Sidebar,
+            id: 'button-1',
+            target: false,
+        },
+        Sidebar,
     }) {
         super({
             props: {
-                ...Button.props,
+                ...Button.props(),
                 ...(data && data.hasOwnProperty("props")) ? data.props : {},
-            }, state: {
-                ...Button.state,
-                ...(data && data.hasOwnProperty("state")) ? data.state : {},
             },
         });
-        this.setHTMLs([ data.html ], data.Sidebar);
+
+        this.setHTMLs([ data.html, ], data.Sidebar);
     }
 
     /**
@@ -44,82 +44,132 @@ export default class Button extends Class {
      * @memberof Button
      */
     setHTMLs (htmls = [], Sidebar) {
-        if (!this.htmls) {
-            this.htmls = [];
-        }
+        if (!this.htmls) this.htmls = [];
+
         for (const html of htmls) {
-            html.addEventListener("click", (e) => {
-                Sidebar.switch(this.props.target);
-            })
+            html.addEventListener('click', e => {
+                if (this.props.target) Sidebar.open();
+                else Sidebar.close();
+            });
+
             this.htmls.push(html);
         }
     }
 
     /**
-     * * Returns all the Sidebar Buttons.
+     * * Default properties.
      * @static
-     * @param {Sidebar} Sidebar
-     * @returns {Button[]}
-     * @memberof Button
+     * @returns {object}
      */
-    static generate (Sidebar) {
-        let buttons = [];
-        let htmls = this.querySelector(Sidebar.props.id);
-        for (const key in htmls) {
-            if (Object.hasOwnProperty.call(htmls, key)) {
-                let found = false;
-                for (const button of buttons) {
-                    if (button.props.target == htmls[key].classList.contains("open")) {
-                        button.setHTMLs([htmls[key]], Sidebar);
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    buttons.push(new this({
-                        props: {
-                            id: `link-${ key }`,
-                            target: htmls[key].classList.contains("open"),
-                        }, html: htmls[key],
-                        Sidebar: Sidebar,
-                    }));
-                }
+    static props () {
+        return {
+            id: 'button-1',
+            target: false,
+        };
+    }
+}
+
+/**
+ * * Controls the Button methods.
+ * @export
+ * @class Methods
+ * @author JuanCruzAGB <juan.cruz.armentia@gmail.com>
+ */
+export default class Methods {
+    /**
+     * * Creates an instance of Methods.
+     * @memberof Methods
+     */
+    constructor () {
+        this.list = [];
+    }
+
+    /**
+     * * Add a Button.
+     * @param {array|object} data
+     * @param {Sidebar} [Sidebar=false]
+     * @throws {Error}
+     * @returns
+     * @memberof Methods
+     */
+    add (btn, Sidebar = false) {
+        if (Sidebar) this.Sidebar = Sidebar;
+
+        if (!btn) throw new Error('Button is required');
+
+        if (Array.isArray(btn) || btn instanceof NodeList) {
+            for (const btnInside of btn) this.add(btnInside);
+
+            return;
+        }
+
+        this.list.push(new Button({
+            html: btn,
+            props: {
+                id: `button-${ this.list.length + 1 }`,
+                target: btn.classList.contains('open'),
+            },
+            Sidebar: this.Sidebar,
+        }));
+    }
+
+    /**
+     * * Returns a Button.
+     * @param {string} target
+     * @throws {Error}
+     * @returns {array}
+     * @memberof Methods
+     */
+    get (target) {
+        if (!target) throw new Error('Sidebar Button target is required');
+
+        if (!target instanceof String) throw new Error('Sidebar Button target must be a string');
+
+        if (!this.has(target)) return undefined;
+
+        let btns = [];
+
+        for (const btn of this.list) {
+            if (btn.props.target == target) btns.push(btn);
+        }
+
+        return btns;
+    }
+
+    /**
+     * * Check if there is a Button.
+     * @param {array|string} target
+     * @throws {Error}
+     * @returns {boolean}
+     * @memberof Methods
+     */
+    has (target) {
+        if (target == undefined) throw new Error('Sidebar Button target is required');
+
+        if (Array.isArray(target)) {
+            for (const btnTarget of target) {
+                if (!this.has(btnTarget)) return false;
             }
+
+            return true;
         }
-        return buttons;
+
+        if (!target instanceof String) throw new Error('Sidebar Button target must be a string');
+
+        for (const btn of this.list) {
+            if (btn.props.target == target) return true;
+        }
+
+        return false;
     }
 
     /**
-     * * Returns all the Sidebar Buttons HTMLElements.
-     * @static
-     * @param {string} id Sidebar primary key.
-     * @returns {HTMLElement[]}
-     * @memberof Button
+     * * Remove a Button.
+     * @param {string} name
+     * @throws {Error}
+     * @memberof Methods
      */
-    static querySelector (id = false) {
-        if (id) {
-            return document.querySelectorAll(`.${ id }.sidebar-button`);
-        }
-        if (!id) {
-            console.error("ID param is required to get the Sidebar Buttons");
-            return [];
-        }
-    }
-
-    /**
-     * @static
-     * @var {object} props Default properties.
-     */
-    static props = {
-        id: "button-1",
-        target: true,
-    }
-    
-    /**
-     * @static
-     * @var {object} state Default state.
-     */
-    static state = {
-        // 
+    remove (name) {
+        console.warn('Remove Sidebar Button is not supported yet');
     }
 }

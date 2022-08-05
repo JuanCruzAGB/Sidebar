@@ -1,11 +1,8 @@
-@import "dropdown.css";
-@import "tabmenu.css";
-
 .sidebar, .sidebar *, .sidebar *::before, .sidebar *::after {
     margin: 0;
     padding: 0;
-    text-decoration: none;
     box-sizing: border-box;
+    text-decoration: none;
     list-style: none;
 }
 
@@ -15,16 +12,58 @@
     width: 75%;
     height: 100%;
     background-color: var(--sidebar-background-color, #FFF);
+    isolation: isolate;
     overflow-x: visible;
     -ms-overflow-style: none;
-    isolation: isolate;
     scrollbar-width: none;
     transition: 500ms;
     z-index: 1;
 }
 
-.sidebar::-webkit-scrollbar, .sidebar .sidebar-body::-webkit-scrollbar {
-    display: none;
+.sidebar.not-scrollbar::-webkit-scrollbar, .sidebar.not-scrollbar .body::-webkit-scrollbar {
+    /* display: none; */
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+.sidebar::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+
+.sidebar::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+
+.sidebar::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+
+.sidebar::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+
+.sidebar::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 .sidebar.left {
@@ -36,16 +75,16 @@
 }
 
 .sidebar.left:not(.opened) {
-    transform: translateX(-101%);
     overflow-x: hidden;
+    transform: translateX(-101%);
 }
 
 .sidebar.right:not(.opened) {
-    transform: translateX(135%);
     overflow-x: hidden;
+    transform: translateX(135%);
 }
 
-.sidebar .sidebar-body {
+.sidebar .body {
     width: 100%;
     height: 100vh;
     padding: 0 var(--sidebar-sm-padding, 1rem);
@@ -53,7 +92,7 @@
     overflow-y: scroll;
 }
 
-.sidebar .sidebar-body .sidebar-header {
+.sidebar .body .header {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -63,44 +102,43 @@
     color: var(--sidebar-title-color, #222);
 }
 
-.sidebar .sidebar-body .sidebar-header .sidebar-title {
+.sidebar .body .header .title {
     flex-basis: 100%;
     height: 100%;
     font-size: 1.2rem;
 }
 
-.sidebar.left .sidebar-body .sidebar-header .sidebar-title {
+.sidebar.left .body .header .title {
     text-align: left;
 }
 
-.sidebar.right .sidebar-body .sidebar-header .sidebar-title {
+.sidebar.right .body .header .title {
     text-align: right;
 }
 
-.sidebar .sidebar-body .sidebar-header .sidebar-title img {
+.sidebar .body .header .title img {
     width: 100%;
     height: var(--nav-menu-image-height, 4.6rem);
     object-fit: contain;
     object-position: top left;
 }
 
-.sidebar.left .sidebar-body .sidebar-header .sidebar-title img {
+.sidebar.left .body .header .title img {
     object-position: top left;
 }
 
-.sidebar.right .sidebar-body .sidebar-header .sidebar-title img {
+.sidebar.right .body .header .title img {
     object-position: top right;
 }
 
-.sidebar .sidebar-body .sidebar-header .sidebar-button {
+.sidebar .body .header .button {
     display: flex;
     align-items: center;
-    width: 0;
-    height: 100%;
-    color: transparent;
+    justify-content: center;
+    flex-basis: 15%;
 }
 
-.sidebar .sidebar-body .sidebar-header .sidebar-button::before {
+.sidebar .body .header .button::before {
     content: "";
     position: absolute;
     top: 0;
@@ -111,56 +149,55 @@
     z-index: -1;
 }
 
-.sidebar.left .sidebar-body .sidebar-header .sidebar-button::before {
+.sidebar.left .body .header .button::before {
     left: 100%;
 }
 
-.sidebar.right .sidebar-body .sidebar-header .sidebar-button::before {
+.sidebar.right .body .header .button::before {
     right: 100%;
 }
 
-.sidebar.opened .sidebar-body .sidebar-header .sidebar-button::before {
+.sidebar.opened .body .header .button::before {
     background-color: rgba(0,0,0,.5);
 }
 
-.sidebar .sidebar-body .sidebar-content {
+.sidebar .body .content {
     background-color: var(--sidebar-content-background-color, #FFF);
 }
 
-.sidebar .sidebar-body .sidebar-content .sidebar-menu-list li {
+.sidebar .body .content .list li {
     position: relative;
     padding: var(--sidebar-button-padding, 1rem) 0;
     border-bottom: 1px solid var(--sidebar-border-color, #DDD);
 }
 
-.sidebar .sidebar-body .sidebar-content .sidebar-menu-list li:last-child {
+.sidebar .body .content .list li:last-child {
     border: none;
 }
 
-.sidebar .sidebar-body .sidebar-content .sidebar-menu-list :where(.sidebar-button, .sidebar-link) {
+.sidebar .body .content .list :where(.button, .link) {
     display: inline-flex;
     align-items: center;
     height: var(--sidebar-button-height, 2.3rem);
     color: var(--sidebar-button-color, #222);
-    line-height: var(--sidebar-button-height, 2.3rem);
     transition: 500ms;
 }
 
-.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-link:where(:hover, .active) {
+.sidebar .body .content .list .link:where(:hover, .active) {
     color: var(--sidebar-button-color-alt, #000);
 }
 
-.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button {
+.sidebar .body .content .list .button {
     border: 1px solid var(--sidebar-border-color, #DDD);
 }
 
-.sidebar .sidebar-body .sidebar-content .sidebar-menu-list .sidebar-button:where(:focus, :hover, .active) {
+.sidebar .body .content .list .button:where(:focus, :hover, .active) {
     border-color: var(--sidebar-border-color-alt, #DDD);
     outline: none;
 }
 
 /* * Footer */
-.sidebar .sidebar-body .sidebar-footer {
+.sidebar .body .footer {
     width: 100%;
     height: 4.6rem;
     min-height: 4.6rem;
@@ -168,7 +205,7 @@
     border-top: 1px solid var(--sidebar-border-color, #DDD);
 }
 
-.sidebar .sidebar-body .sidebar-footer .sidebar-footer-menu-list {
+.sidebar .body .footer .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -176,7 +213,7 @@
     text-align: center;
 }
 
-.sidebar .sidebar-body .sidebar-footer .sidebar-footer-menu-list li {
+.sidebar .body .footer .list li {
     display: flex;
     align-items: center;
     justify-content: center;
