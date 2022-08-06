@@ -1,8 +1,8 @@
 // ? JuanCruzAGB | Source repository
 import Class from '@juancruzagb/src';
 
-// ? Dropdown repository
-import { Button, Link, } from "@juancruzagb/sidebar";
+// ? JuanCruzAGB | Sidebar repository
+import { Button, } from "@juancruzagb/sidebar";
 
 /**
  * * Sidebar makes an excellent sidebar.
@@ -87,11 +87,11 @@ export default class Sidebar extends Class {
         });
 
         this.html = document.querySelector(`#${ this.props.id }.sidebar`);
-        this.buttons = new Button;
 
-        this.buttons.add(document.querySelectorAll(`.${ this.props.id }.button`));
-        
-        if (this.state.open) this.open(this.state.open);
+        this.buttons = new Button;
+        this.buttons.add(document.querySelectorAll(`.${ this.props.id }.button`), this);
+
+        if (this.state.open) this.open();
     }
 
     /**
@@ -132,6 +132,7 @@ export default class Sidebar extends Class {
 
     /**
      * * Switch the Sidebar open state.
+     * @param {object} [params]
      * @returns {boolean}
      * @memberof Sidebar
      */
@@ -149,12 +150,12 @@ export default class Sidebar extends Class {
         if (this.callbacks.has("switch")) {
             this.callbacks.execute("switch", {
                 ...params,
-                open: open,
+                open: this.state.open,
                 Sidebar: this,
             });
         }
 
-        return open;
+        return this.state.open;
     }
 
     /**
